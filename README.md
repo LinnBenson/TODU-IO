@@ -8,3 +8,8 @@ Website: [TODU-IO](https://todu.io)
 ```
 composer require linnbenson/todu-io
 ```
+
+### Shell 管理器
+```
+chmod +x vendor/bin/todu && vendor/bin/todu
+```
