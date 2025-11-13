@@ -1,0 +1,26 @@
+{
+    "name": "linnbenson/php-devtool",
+    "description": "PHP project development aids.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Linn Benson",
+            "email": "support@bemiun.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Todu\\": "src/"
+        },
+        "files": [
+            "src/Helper/Common.php"
+        ]
+    },
+    "bin": [
+        "bin/cmd"
+    ],
+    "require": {
+        "php": ">=7.3"
+    }
+}
