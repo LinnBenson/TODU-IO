@@ -89,13 +89,13 @@
      * - [string]:目录路径
      * return [boolean]:删除结果
      */
-    if ( !function_exists( 'deleteDir' ) ) {
-        function deleteDir( string $dir ) {
+    if ( !function_exists( 'delFolder' ) ) {
+        function delFolder( string $dir ) {
             if ( !is_dir( $dir ) ) { return false; }
             foreach( scandir( $dir ) as $file ) {
                 if ( $file === '.' || $file === '..' ) { continue; }
                 $path = "{$dir}/{$file}";
-                is_dir( $path ) ? deleteDir( $path ) : unlink( $path );
+                is_dir( $path ) ? delFolder( $path ) : unlink( $path );
             }
             return rmdir( $dir );
         }
@@ -105,8 +105,8 @@
      * - [string]:源目录路径, [string]:目标路径
      * return [boolean]:复制结果
      */
-    if ( !function_exists( 'copyDir' ) ) {
-        function copyDir( string $src, string $dst ) {
+    if ( !function_exists( 'copyFolder' ) ) {
+        function copyFolder( string $src, string $dst ) {
             // 去掉末尾的 /
             $src = rtrim( $src, '/\\' );
             $dst = rtrim( $dst, '/\\' );
@@ -120,7 +120,7 @@
                 $srcFile = "{$src}/{$file}";
                 $dstFile = "{$dst}/{$file}";
                 if ( is_dir( $srcFile ) ) {
-                    copyDir( $srcFile, $dstFile );
+                    copyFolder( $srcFile, $dstFile );
                 } else {
                     copy( $srcFile, $dstFile );
                 }
@@ -225,4 +225,19 @@
             if ( !is_string( $string ) || !is_string( $prefix ) ) { return false; }
             return substr( $string, -strlen( $prefix ) ) === $prefix;
         }
+    }
+    /**
+     * 返回忽略标识
+     * return [string]:忽略标识
+     */
+    if ( !function_exists( 'valueNull' ) ) {
+        function valueNull() { return '[THE_PROGRAM_DID_NOT_EXECUTE_ANYTHING]'; }
+    }
+    /**
+     * 获取 TODU-IO 组件目录
+     * - [string]|'':子路径
+     * return [string]:组件目录
+     */
+    if ( !function_exists( 'ToduPath' ) ) {
+        function ToduPath( $path = '' ) { return "vendor/linnbenson/todu-io/{$path}"; }
     }

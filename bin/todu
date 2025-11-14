@@ -1,5 +1,21 @@
 #!/usr/bin/env php
 <?php
-    require_once 'vendor/autoload.php';
 
-    echo 'Pass'.PHP_EOL;
+use Todu\Bootstrap;
+use Todu\Helper\Shell;
+
+    // 引入 Composer 自动加载
+    require_once 'vendor/autoload.php';
+    // 初始化驱动器
+    Bootstrap::init();
+    // 解析命令行参数
+    $_GET = Shell::validate( $argv, 'GET' );
+    // 生成管理器菜单
+    $menu = [
+        'title' => config( 'Todu.name' ).' 管理工具',
+        "Version: ".config( 'Todu.version' ),
+        '{=}',
+        ['查询组件目录', function() { return Shell::echo( true, ToduPath() ); }],
+        'other' => function() { return Shell::echo( false, "当前选项不存在！" ); }
+    ];
+    Shell::menu( $menu );
