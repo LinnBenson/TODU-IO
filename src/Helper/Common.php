@@ -1,4 +1,7 @@
 <?php
+
+use Todu\Bootstrap;
+
     /**
      * 变量检查：是否为 json
      * ---
@@ -210,7 +213,7 @@
      * return [boolean]:判断结果
      */
     if ( !function_exists( 'startsWith' ) ) {
-        function startWith( string $string, string $prefix ) {
+        function startsWith( string $string, string $prefix ) {
             if ( !is_string( $string ) || !is_string( $prefix ) ) { return false; }
             return substr( $string, 0, strlen( $prefix ) ) === $prefix;
         }
@@ -221,17 +224,63 @@
      * return [boolean]:判断结果
      */
     if ( !function_exists( 'endsWith' ) ) {
-        function endWith( string $string, string $prefix ) {
+        function endsWith( string $string, string $prefix ) {
             if ( !is_string( $string ) || !is_string( $prefix ) ) { return false; }
             return substr( $string, -strlen( $prefix ) ) === $prefix;
+        }
+    }
+    /**
+     * 加密一段内容
+     * - [string]:加密文本, [string]|null:加密密钥
+     * return [string|null]:加密后的内容
+     */
+    if ( !function_exists( 'encrypt' ) ) {
+        function encrypt( $string, $key = null ) {
+            if ( Bootstrap::$init && $key === null ) { $key = env( 'APP_KEY', 'DefaultKey' ); }
+            if ( empty( $key ) || !is_string( $key ) ) { return null; }
+            return \Blocktrail\CryptoJSAES\CryptoJSAES::encrypt( toString( $string ), $key );
+        }
+    }
+    /**
+     * 解密一段内容
+     * - [string]:解密文本, [string]|null:解密密钥
+     * return [string|null]:解密后的内容
+     */
+    if ( !function_exists( 'decrypt' ) ) {
+        function decrypt( $string, $key = null ) {
+            if ( Bootstrap::$init && $key === null ) { $key = env( 'APP_KEY', 'DefaultKey' ); }
+            if ( empty( $key ) || !is_string( $key ) ) { return null; }
+            return \Blocktrail\CryptoJSAES\CryptoJSAES::decrypt( toString( $string ), $key );
+        }
+    }
+    /**
+     * 哈希一个参数
+     * - [string]:传入的内容
+     * - return [string|null]:返回哈希后的字符串或 null
+     */
+    if ( !function_exists( 'h' ) ) {
+        function h( $string ) {
+            $key = '';
+            if ( Bootstrap::$init ) { $key = env( 'APP_KEY', 'DefaultKey' ); }
+            return hash( 'sha256', toString( $string ).$key );
+        }
+    }
+    /**
+     * 显示调试信息
+     * - [mixed]:调试内容, [bool:true]:是否终止程序
+     * return [null]:无返回值
+     */
+    if ( !function_exists( 'dd' ) ) {
+        function dd( $message, bool $exit = true ) {
+            return \Todu\Helper\Debug::show( $message, $exit );
         }
     }
     /**
      * 返回忽略标识
      * return [string]:忽略标识
      */
-    if ( !function_exists( 'valueNull' ) ) {
-        function valueNull() { return '[THE_PROGRAM_DID_NOT_EXECUTE_ANYTHING]'; }
+    if ( !function_exists( 'null' ) ) {
+        function null() { return '[THE_PROGRAM_DID_NOT_EXECUTE_ANYTHING]'; }
     }
     /**
      * 获取 TODU-IO 组件目录

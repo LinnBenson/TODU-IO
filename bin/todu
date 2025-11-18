@@ -12,10 +12,9 @@ use Todu\Helper\Shell;
     $_GET = Shell::validate( $argv, 'GET' );
     // 生成管理器菜单
     $menu = [
-        'title' => config( 'Todu.name' ).' 管理工具',
-        "Version: ".config( 'Todu.version' ),
+        'title' => config( 'todu.name' ).' 管理工具',
+        "Version: ".config( 'todu.version' ),
         '{=}',
-        ['查询组件目录', function() { return Shell::echo( true, ToduPath() ); }],
-        'other' => function() { return Shell::echo( false, "当前选项不存在！" ); }
+        ['查询组件目录', function() { return Shell::echo( true, "组件运行目录: ".ToduPath() ); }]
     ];
     Shell::menu( $menu );

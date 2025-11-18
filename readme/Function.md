@@ -59,19 +59,43 @@
   - return [boolean]:判断结果
 - 判断内容是否以指定内容开始
   ```
-  startWith( [string]:内容, [string]:开始内容 );
+  startsWith( [string]:内容, [string]:开始内容 );
   ```
   - return [boolean]:判断结果
 - 判断内容是否以指定内容结束
   ```
-  endWith( [string]:内容, [string]:结束内容 );
+  endsWith( [string]:内容, [string]:结束内容 );
   ```
   - return [boolean]:判断结果
+- 加密一段内容
+  ```
+  // init 完成后 $key === null 将使用 env( 'APP_KEY', 'DefaultKey' )
+  encrypt( [string]:加密文本, [string]|null:加密密钥 );
+  ```
+  - return [string]:加密后内容
+- 解密一段内容
+  ```
+  // init 完成后 $key === null 将使用 env( 'APP_KEY', 'DefaultKey' )
+  decrypt( [string]:解密文本, [string]|null:解密密钥 );
+  ```
+  - return [string]:解密后内容
+- 哈希一个参数
+  ```
+  // init 完成后将使用 env( 'APP_KEY', 'DefaultKey' ) 混淆
+  h( [string]:传入的内容 );
+  ```
+  - return [string|null]:返回哈希后的字符串或 null
+- 显示调试信息
+  ```
+  dd( [mixed]:调试内容, [boolean]|true:是否终止程序 );
+  ```
+  - return [void]:无返回值
 - 返回忽略标识
   ```
-  valueNull();
+  // 固定返回 '[THE_PROGRAM_DID_NOT_EXECUTE_ANYTHING]'
+  null();
   ```
-  - return [string]:忽略标识( [THE_PROGRAM_DID_NOT_EXECUTE_ANYTHING] )
+  - return [string]:忽略标识
 - 获取 TODU-IO 组件目录
   ```
   ToduPath( [string]|'':子路径 );

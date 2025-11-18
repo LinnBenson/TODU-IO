@@ -14,7 +14,7 @@ use Todu\Bootstrap;
          * return [string]:返回输出内容
          */
         public static function echo( $status, $data, $direct = true ) {
-            $statusText = Bootstrap::$init ? config( 'Todu.shell.echo' ) : [ 'Success', 'Error' ];
+            $statusText = Bootstrap::$init ? [ __( 'shell.echo.true' ), __( 'shell.echo.false' ) ] : [ 'Success', 'Error' ];
             $status = !empty( $status ) ? "{bg}{b}{$statusText[0]}" : "{br}{b}{$statusText[1]}";
             return self::line(array_merge([
                 "{$status} | {time}{end}",
@@ -33,7 +33,7 @@ use Todu\Bootstrap;
                 return is_callable( $yes ) ? call_user_func( $yes ) : $yes;
             }else {
                 if ( $no === null ) {
-                    $cancel = Bootstrap::$init ? config( 'Todu.shell.cancel' ) : 'The operation has been cancelled.';
+                    $cancel = Bootstrap::$init ? __( 'shell.cancel' ) : 'The operation has been cancelled.';
                     return self::line( "{cr}{$cancel}{end}" );
                 }
                 return is_callable( $no ) ? call_user_func( $no ) : $no;
@@ -92,7 +92,8 @@ use Todu\Bootstrap;
             if ( isset( $method["option_{$run}"] ) && is_callable( $method["option_{$run}"] ) ) {
                 return call_user_func( $method["option_{$run}"] );
             }
-            return isset( $method["other"] ) && is_callable( $method["other"] ) ? call_user_func( $method["other"] ) : null;
+            $nullText = Bootstrap::$init ? __( 'shell.null' ) : 'The selected option does not exist!';
+            return isset( $method["other"] ) && is_callable( $method["other"] ) ? call_user_func( $method["other"] ) : self::echo( false, $nullText );
         }
         /**
          * 获取用户输入
@@ -101,7 +102,7 @@ use Todu\Bootstrap;
          */
         public static function input( $text = null ) {
             if ( $text === null ) {
-                $text = Bootstrap::$init ? config( 'Todu.shell.input' ) : 'Please enter:';
+                $text = Bootstrap::$init ? __( 'shell.input' ) : 'Please enter:';
             }
             echo self::line( "\n{bc}{b} {$text} {end} ", false );
             $input = trim( fgets( STDIN ) );
